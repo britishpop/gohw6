@@ -17,28 +17,28 @@ func TestSortTransactions(t *testing.T) {
 		Sum:    7800_00,
 		Status: "processing",
 		MCC:    "5921",
-		Date:   time.Date(2020, time.June, 9, 11, 15, 10, 0, time.UTC).Unix(),
+		Date:   time.Date(2020, time.June, 9, 11, 15, 10, 0, time.UTC),
 	}, {
 		Id:     1,
 		Type:   "debit",
 		Sum:    90000_00,
 		Status: "processing",
 		MCC:    "5921",
-		Date:   time.Date(2020, time.June, 9, 12, 16, 10, 0, time.UTC).Unix(),
+		Date:   time.Date(2020, time.June, 9, 12, 16, 10, 0, time.UTC),
 	}, {
 		Id:     2,
 		Type:   "debit",
 		Sum:    55_00,
 		Status: "processing",
 		MCC:    "5921",
-		Date:   time.Date(2020, time.June, 25, 6, 14, 0, 0, time.UTC).Unix(),
+		Date:   time.Date(2020, time.June, 25, 6, 14, 0, 0, time.UTC),
 	}, {
 		Id:     3,
 		Type:   "debit",
 		Sum:    55_00,
 		Status: "processing",
 		MCC:    "5921",
-		Date:   time.Date(2020, time.June, 26, 6, 14, 0, 0, time.UTC).Unix(),
+		Date:   time.Date(2020, time.June, 26, 6, 14, 0, 0, time.UTC),
 	}}
 
 	sorted := []Transaction{{
@@ -47,28 +47,28 @@ func TestSortTransactions(t *testing.T) {
 		Sum:    90000_00,
 		Status: "processing",
 		MCC:    "5921",
-		Date:   time.Date(2020, time.June, 9, 12, 16, 10, 0, time.UTC).Unix(),
+		Date:   time.Date(2020, time.June, 9, 12, 16, 10, 0, time.UTC),
 	}, {
 		Id:     0,
 		Type:   "debit",
 		Sum:    7800_00,
 		Status: "processing",
 		MCC:    "5921",
-		Date:   time.Date(2020, time.June, 9, 11, 15, 10, 0, time.UTC).Unix(),
+		Date:   time.Date(2020, time.June, 9, 11, 15, 10, 0, time.UTC),
 	}, {
 		Id:     2,
 		Type:   "debit",
 		Sum:    55_00,
 		Status: "processing",
 		MCC:    "5921",
-		Date:   time.Date(2020, time.June, 25, 6, 14, 0, 0, time.UTC).Unix(),
+		Date:   time.Date(2020, time.June, 25, 6, 14, 0, 0, time.UTC),
 	}, {
 		Id:     3,
 		Type:   "debit",
 		Sum:    55_00,
 		Status: "processing",
 		MCC:    "5921",
-		Date:   time.Date(2020, time.June, 26, 6, 14, 0, 0, time.UTC).Unix(),
+		Date:   time.Date(2020, time.June, 26, 6, 14, 0, 0, time.UTC),
 	}}
 
 	tests := []struct {

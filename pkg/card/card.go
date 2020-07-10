@@ -1,6 +1,10 @@
 package card
 
-import "sort"
+import (
+	"sort"
+	"sync"
+	"time"
+)
 
 type Transaction struct {
 	Id     int64
@@ -8,7 +12,7 @@ type Transaction struct {
 	Sum    int64
 	Status string
 	MCC    string
-	Date   int64
+	Date   time.Time
 }
 
 type Card struct {
@@ -35,23 +39,28 @@ func SortTransactions(transactions []Transaction) []Transaction {
 	return tr
 }
 
-func SumConcurrently(transactions []int64, goroutines int) int64 {
-	wg := sync.WaitGroup{}
-	wg.Add(goroutines)
+func (card *Card) SumConcurrently(start, finish time.Time) int64 {
+	transByDate := make(map[string][]Transaction)
 
-	total := int64(0)
-	partSize := // TODO: решаете сами
-	for i := 0; i < goroutines; i++ {
-	        // ВАЖНО: просто с partSize не прокатит, вам нужно как-то заранее разделить слайс по месяцам
-	        // ВАЖНО: этот код - лишь шаблон, который показывает вам как запустить горутину
-		part := transactions[i*partSize : (i+1)*partSize]
+	for _, trans := range card.Transactions {
+		month := trans.Date.Month()
+		if (trans.Date.After(start) && trans.Date.Before(finish)) || (trans.Date.Equal(start) || trans.Date.Equal(finish)) {
+			transByDate[month.String()] = append(transByDate[month.String()], trans)
+		}
+	}
+	wg := sync.WaitGroup{}
+	wg.Add(len(transByDate))
+
+	var total int64
+	for _, tr := range transByDate {
+		part := tr
 		go func() {
-			sum := Sum(part)
-			fmt.Println(sum)
+			for _, v := range part {
+				total += v.Sum
+			}
 			wg.Done()
 		}()
 	}
-
 	wg.Wait()
 	return total
 }
