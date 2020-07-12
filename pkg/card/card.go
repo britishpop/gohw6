@@ -40,15 +40,13 @@ func SortTransactions(transactions []Transaction) []Transaction {
 	return tr
 }
 
-func (card *Card) makeMapByDate(start, finish time.Time) map[string][]Transaction {
+func (card *Card) makeMapByDate() map[string][]Transaction {
 	transByDate := make(map[string][]Transaction)
 
 	for _, trans := range card.Transactions {
 		month := trans.Date.Month()
 		year := trans.Date.Year()
-		if (trans.Date.After(start) && trans.Date.Before(finish)) || (trans.Date.Equal(start) || trans.Date.Equal(finish)) {
-			transByDate[fmt.Sprintf("%d-%d", month, year)] = append(transByDate[fmt.Sprintf("%d-%d", month, year)], trans)
-		}
+		transByDate[fmt.Sprintf("%d-%d", month, year)] = append(transByDate[fmt.Sprintf("%d-%d", month, year)], trans)
 	}
 	return transByDate
 }
@@ -61,8 +59,8 @@ func Sum(transitions []Transaction) int64 {
 	return sum
 }
 
-func (card *Card) SumConcurrently(start, finish time.Time) map[string]int64 {
-	transByDate := card.makeMapByDate(start, finish)
+func (card *Card) SumConcurrently() map[string]int64 {
+	transByDate := card.makeMapByDate()
 
 	wg := sync.WaitGroup{}
 	wg.Add(len(transByDate))
@@ -70,10 +68,8 @@ func (card *Card) SumConcurrently(start, finish time.Time) map[string]int64 {
 	total := make(map[string]int64)
 	for key, tr := range transByDate {
 		part := tr
-		var sum int64
 		go func(key string) {
-			sum += Sum(part)
-			total[key] = sum
+			total[key] = Sum(part)
 			wg.Done()
 		}(key)
 	}
