@@ -50,14 +50,16 @@ func main() {
 		Transactions: []card.Transaction{*t1, *t2, *t3, *t4},
 	}
 
-	fmt.Println("Original: ", master.Transactions)
-	newTr := card.SortTransactions(master.Transactions)
-	fmt.Println("Sorted: ", newTr)
-	fmt.Println("Original after sort: ", master.Transactions)
+	// fmt.Println("Original: ", master.Transactions)
+	// newTr := card.SortTransactions(master.Transactions)
+	// fmt.Println("Sorted: ", newTr)
+	// fmt.Println("Original after sort: ", master.Transactions)
 
 	start := time.Date(2020, 5, 1, 0, 0, 0, 0, time.UTC)
 	finish := time.Date(2020, 11, 1, 0, 0, 0, 0, time.UTC)
 
 	t := master.SumConcurrently(start, finish)
-	fmt.Println("Sum by months: ", t)
+	for k, v := range t {
+		fmt.Printf("Sum transaction in %s: %d \r\n", k, v)
+	}
 }
